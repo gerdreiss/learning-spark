@@ -8,9 +8,11 @@ libraryDependencies ++= {
   val sparkVersion = "2.1.0"
 
   Seq(
+    // Apache Log4j
+    "log4j" % "log4j" % "1.2.14",
     // Apache Spark
-    "org.apache.spark" %% "spark-core" % sparkVersion % Provided,
-    "org.apache.spark" %% "spark-sql" % sparkVersion % Provided,
+    "org.apache.spark" %% "spark-core" % sparkVersion,
+    "org.apache.spark" %% "spark-sql" % sparkVersion,
     // Config
     "com.typesafe" % "config" % "1.3.1",
     // ScalaTest
