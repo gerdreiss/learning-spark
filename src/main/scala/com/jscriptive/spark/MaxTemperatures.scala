@@ -1,12 +1,12 @@
-package com.sundogsoftware.spark
+package com.jscriptive.spark
 
 import org.apache.log4j._
 import org.apache.spark._
 
 import scala.math.min
 
-/** Find the minimum temperature by weather station */
-object MinTemperatures {
+/** Find the maximum temperature by weather station */
+object MaxTemperatures {
 
   case class TempData(stationID: String, entryType: String, temperature: Float)
 
@@ -17,7 +17,7 @@ object MinTemperatures {
     Logger.getLogger("org").setLevel(Level.ERROR)
 
     // Create a SparkContext using every core of the local machine
-    val sc = new SparkContext("local[*]", "MinTemperatures")
+    val sc = new SparkContext("local[*]", "MaxTemperatures")
 
     // Read each line of input data
     val lines = sc.textFile("1800.csv")
@@ -25,8 +25,8 @@ object MinTemperatures {
     // Convert to (stationID, entryType, temperature) tuples
     val parsedLines = lines.map(_.split(",")).map(fields => TempData(fields(0), fields(2), fields(3).toFloat / 10f))
 
-    // Filter out all but TMIN entries
-    val minTemps = parsedLines.filter(data => data.entryType == "TMIN")
+    // Filter out all but TMAX entries
+    val minTemps = parsedLines.filter(data => data.entryType == "TMAX")
 
     // Convert to (stationID, temperature)
     val stationTemps = minTemps.map(data => (data.stationID, data.temperature))
@@ -41,7 +41,7 @@ object MinTemperatures {
       val station = result._1
       val temp = result._2
       val formattedTemp = f"$temp%.2f C"
-      println(s"$station minimum temperature: $formattedTemp")
+      println(s"$station maximum temperature: $formattedTemp")
     }
   }
 }
