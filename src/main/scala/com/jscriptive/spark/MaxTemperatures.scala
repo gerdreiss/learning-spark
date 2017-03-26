@@ -3,7 +3,7 @@ package com.jscriptive.spark
 import org.apache.log4j._
 import org.apache.spark._
 
-import scala.math.min
+import scala.math.max
 
 /** Find the maximum temperature by weather station */
 object MaxTemperatures {
@@ -32,7 +32,7 @@ object MaxTemperatures {
     val stationTemps = minTemps.map(data => (data.stationID, data.temperature))
 
     // Reduce by stationID retaining the minimum temperature found
-    val minTempsByStation = stationTemps.reduceByKey((x, y) => min(x, y))
+    val minTempsByStation = stationTemps.reduceByKey((x, y) => max(x, y))
 
     // Collect, format, and print the results
     val results = minTempsByStation.collect()
