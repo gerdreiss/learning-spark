@@ -25,8 +25,11 @@ object WordCountAndLength {
       .flatMap(_.split("\\W+"))
       .map(_.toLowerCase())
       .map(word => (word, Numbers(1, word.length)))
-      .reduceByKey((data1, data2) => Numbers(data1.count + data2.count, data1.length))
-      .map { case (word, nums) => (nums.count, Word(word, nums)) }.sortByKey()
+      .reduceByKey((nums1, nums2) => Numbers(nums1.count + nums2.count, nums1.length))
+      .map {
+        case (word, nums) => (nums.count, Word(word, nums))
+      }
+      .sortByKey()
       .foreach(result => println(s"${result._2}"))
   }
 }
