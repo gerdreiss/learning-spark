@@ -19,13 +19,13 @@ object WordCountBetterSorted {
     val input = sc.textFile("book.txt")
 
     // Split using a regular expression that extracts words
-    val words = input.flatMap(x => x.split("\\W+"))
+    val words = input.flatMap(_.split("\\W+"))
 
     // Normalize everything to lowercase
-    val lowercaseWords = words.map(x => x.toLowerCase())
+    val lowercaseWords = words.map(_.toLowerCase())
 
     // Count of the occurrences of each word
-    val wordCounts = lowercaseWords.map(x => (x, 1)).reduceByKey((x, y) => x + y)
+    val wordCounts = lowercaseWords.map(x => (x, 1)).reduceByKey(_ + _)
 
     // Flip (word, count) tuples to (count, word) and then sort by key (the counts)
     val wordCountsSorted = wordCounts.map(x => (x._2, x._1)).sortByKey()
