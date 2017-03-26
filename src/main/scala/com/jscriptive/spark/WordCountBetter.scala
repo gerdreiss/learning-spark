@@ -19,10 +19,10 @@ object WordCountBetter {
     val input = sc.textFile("book.txt")
 
     // Split using a regular expression that extracts words
-    val words = input.flatMap(x => x.split("\\W+"))
+    val words = input.flatMap(_.split("\\W+"))
 
     // Normalize everything to lowercase
-    val lowercaseWords = words.map(x => x.toLowerCase())
+    val lowercaseWords = words.map(_.toLowerCase())
 
     // Count of the occurrences of each word
     val wordCounts = lowercaseWords.countByValue()
