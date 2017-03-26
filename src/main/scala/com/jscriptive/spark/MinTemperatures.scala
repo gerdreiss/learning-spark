@@ -20,7 +20,7 @@ object MinTemperatures {
     val sc = new SparkContext("local[*]", "MinTemperatures")
 
     // Read each line of input data
-    val lines = sc.textFile("1800.csv")
+    val lines = sc.textFile("data/1800.csv")
 
     // Convert to (stationID, entryType, temperature) tuples
     val parsedLines = lines.map(_.split(",")).map(fields => TempData(fields(0), fields(2), fields(3).toFloat / 10f))

@@ -21,7 +21,7 @@ object WordCountAndLength {
     // Create a SparkContext using the local machine
     val sc = new SparkContext("local", "WordCountBetterSorted")
 
-    sc.textFile("book.txt")
+    sc.textFile("data/book.txt")
       .flatMap(_.split("\\W+"))
       .map(_.toLowerCase())
       .map(word => (word, Numbers(1, word.length)))

@@ -21,7 +21,7 @@ object FriendsByAge {
     val sc = new SparkContext("local[*]", "FriendsByAge")
 
     // Load each line of the source data into an RDD
-    val lines = sc.textFile("fakefriends.csv")
+    val lines = sc.textFile("data/fakefriends.csv")
 
     // Use our parseLines function to convert to (age, numFriends) tuples
     val ageAndFriends: RDD[(Age, NumOfFriends)] = lines
