@@ -2,6 +2,8 @@ name := "learning-spark"
 
 version := "1.0"
 
+organization := "com.jscriptive"
+
 scalaVersion := "2.11.8"
 
 libraryDependencies ++= {
