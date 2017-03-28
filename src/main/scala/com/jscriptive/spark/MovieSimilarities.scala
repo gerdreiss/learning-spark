@@ -58,7 +58,7 @@ object MovieSimilarities {
   type RatingPair = (Rating, Rating)
   type RatingPairs = Iterable[RatingPair]
 
-  def computeCosineSimilarity(ratingPairs: RatingPairs): (Rating, Int) = {
+  def computeCosineSimilarity(ratingPairs: RatingPairs): (Double, Int) = {
     var numPairs: Int = 0
     var sum_xx: Double = 0.0
     var sum_yy: Double = 0.0
@@ -157,7 +157,7 @@ object MovieSimilarities {
         if (similarMovieID == movieID) {
           similarMovieID = pair._2
         }
-        println(f"${nameDict(similarMovieID).padTo(48, " ").mkString}score: ${sim._1}%18.17f\tstrength: ${sim._2}%4d")
+        println(f"${nameDict(similarMovieID).padTo(60, " ").mkString}score: ${sim._1}%18.17f\tstrength: ${sim._2}%4d")
       }
     }
   }
