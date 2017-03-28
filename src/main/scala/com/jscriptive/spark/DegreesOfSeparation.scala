@@ -2,7 +2,6 @@ package com.jscriptive.spark
 
 import org.apache.log4j._
 import org.apache.spark._
-import org.apache.spark.rdd._
 import org.apache.spark.util.LongAccumulator
 
 import scala.collection.mutable.ArrayBuffer
@@ -52,11 +51,6 @@ object DegreesOfSeparation {
     }
 
     (heroID, (connections, distance, color))
-  }
-
-  /** Create "iteration 0" of our RDD of BFSNodes */
-  def createStartingRdd(sc: SparkContext): RDD[BFSNode] = {
-    sc.textFile("data/marvel-graph.txt").map(convertToBFS)
   }
 
   /** Expands a BFSNode into this node and its children */
@@ -168,7 +162,7 @@ object DegreesOfSeparation {
     // character in our BFS traversal.
     hitCounter = Some(sc.longAccumulator("Hit Counter"))
 
-    var iterationRdd = createStartingRdd(sc)
+    var iterationRdd = sc.textFile("data/marvel-graph.txt").map(convertToBFS)
     for (iteration <- 1 to 10) {
       println("Running BFS Iteration# " + iteration)
 
