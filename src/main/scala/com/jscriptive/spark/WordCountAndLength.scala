@@ -9,7 +9,10 @@ object WordCountAndLength {
   case class Numbers(count: Int, length: Int)
 
   case class Word(word: String, numbers: Numbers) {
-    override def toString: String = f"${word.padTo(18, " ").mkString}%s ${numbers.length}%6d ${numbers.count}%4d"
+    override def toString: String = {
+      val paddedWord: String = word.padTo(18, " ").map(_.toString).mkString
+      f"$paddedWord%s ${numbers.length}%6d ${numbers.count}%4d"
+    }
   }
 
   /** Our main function where the action happens */
