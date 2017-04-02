@@ -1,7 +1,5 @@
 package com.jscriptive.spark.streaming
 
-import java.util.regex.Matcher
-
 import com.jscriptive.spark.streaming.Utilities._
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.{Seconds, StreamingContext}
