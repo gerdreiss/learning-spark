@@ -16,6 +16,7 @@ libraryDependencies ++= {
     "org.apache.spark" %% "spark-sql" % sparkVersion,
     "org.apache.spark" %% "spark-streaming" % sparkVersion,
     "org.apache.bahir" %% "spark-streaming-twitter" % sparkVersion,
+    "org.apache.spark" %% "spark-streaming-kafka-0-8" % sparkVersion,
     "org.rogach" %% "scallop" % scallopVersion,
     // Config
     "com.typesafe" % "config" % "1.3.1"
