@@ -1,34 +1,32 @@
-// Kafka setup instructions for Windows: https://dzone.com/articles/running-apache-kafka-on-windows-os
+// Flume setup steps (and more) at http://spark.apache.org/docs/latest/streaming-flume-integration.html
 
 package com.jscriptive.spark.streaming
 
 import com.jscriptive.spark.streaming.Utilities._
-import kafka.serializer.StringDecoder
-import org.apache.spark.streaming.kafka._
+import org.apache.spark.streaming.flume._
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
-/** Working example of listening for log data from Kafka's testLogs topic on port 9092. */
-object KafkaExample {
+/** Example of connecting to Flume log data, in a "pull" configuration. */
+object FlumePullExample {
 
   def main(args: Array[String]) {
 
     // Create the context with a 1 second batch size
-    val ssc = new StreamingContext("local[*]", "KafkaExample", Seconds(1))
+    val ssc = new StreamingContext("local[*]", "FlumePullExample", Seconds(1))
 
     setupLogging()
 
     // Construct a regular expression (regex) to extract fields from raw Apache log lines
     val pattern = apacheLogPattern()
 
-    // hostname:port for Kafka brokers, not Zookeeper
-    val kafkaParams = Map("metadata.broker.list" -> "localhost:9092")
-    // List of topics you want to listen for from Kafka
-    val topics = Set("testLogs")
-    // Create our Kafka stream, which will contain (topic,message) pairs. We tack a 
-    // map(_._2) at the end in order to only get the messages, which contain individual
-    // lines of data.
-    KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](ssc, kafkaParams, topics)
-      .map(_._2)
+    // The only difference from the push example is that we use createPollingStream instead of createStream.
+    FlumeUtils.createPollingStream(ssc, "localhost", 9092)
+      // This creates a DStream of SparkFlumeEvent objects. We need to extract the actual messages.
+      // This assumes they are just strings, like lines in a log file.
+      // In addition to the body, a SparkFlumeEvent has a schema and header you can get as well. So you
+      // could handle structured data if you want.
+      .map(_.event.getBody.array())
+      .map(new String(_))
       // get a pattern matcher for each line
       .map(pattern.matcher(_))
       // filter for those lines that match the pattern
@@ -40,7 +38,7 @@ object KafkaExample {
       // filter for those that have the three parts present
       .filter(_.length == 3)
       // get the URL
-      .map(_(1))
+      .map(_ (1))
       // map to URL, count tuple
       .map((_, 1))
       // count the occurrence of each URL

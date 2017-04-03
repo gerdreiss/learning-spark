@@ -42,7 +42,7 @@ object PopularHashtags {
       // Now count them up over a 5 minute window sliding every one second
       .reduceByKeyAndWindow(_ + _, _ - _, Seconds(300), Seconds(1))
       // Sort the results by the count values
-      .transform(rdd => rdd.sortBy(_._2, ascending = false))
+      .transform(_.sortBy(_._2, ascending = false))
       // Print the top 10
       .print
 

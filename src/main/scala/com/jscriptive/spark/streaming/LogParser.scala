@@ -58,7 +58,7 @@ object LogParser {
       // count the occurrence of each URL
       .reduceByKeyAndWindow(_ + _, _ - _, Seconds(300), Seconds(1))
       // sort the RDD by count descending
-      .transform(rdd => rdd.sortBy(_._2, ascending = false))
+      .transform(_.sortBy(_._2, ascending = false))
       // print the first 10 lines
       .print()
 
