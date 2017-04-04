@@ -19,6 +19,7 @@ libraryDependencies ++= {
     "org.apache.spark" %% "spark-streaming-kafka-0-8" % sparkVersion,
     "org.apache.spark" %% "spark-streaming-flume" % sparkVersion,
     "org.apache.spark" %% "spark-streaming-flume-sink" % sparkVersion,
+    "com.databricks" %% "spark-xml" % "0.4.1",
     "org.rogach" %% "scallop" % scallopVersion,
     // Config
     "com.typesafe" % "config" % "1.3.1"
