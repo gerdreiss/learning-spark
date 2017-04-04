@@ -16,9 +16,6 @@ object HadoopStreamingXML extends App {
   jobConf.set("stream.recordreader.class", "org.apache.hadoop.streaming.StreamXmlRecordReader")
   jobConf.set("stream.recordreader.begin", "<book")
   jobConf.set("stream.recordreader.end", "</book>")
-  jobConf.setInputFormat(classOf[org.apache.hadoop.streaming.StreamInputFormat])
-  jobConf.setOutputKeyClass(classOf[org.apache.hadoop.io.Text])
-  jobConf.setOutputValueClass(classOf[org.apache.hadoop.io.Text])
   FileInputFormat.addInputPath(jobConf, new Path("data/books.xml"))
 
   val sparkSession = SparkSession
