@@ -9,6 +9,7 @@ scalaVersion := "2.11.8"
 libraryDependencies ++= {
   val sparkVersion = "2.1.0"
   val scallopVersion = "2.1.1"
+  val hadoopVersion = "2.8.0"
 
   Seq(
     // Apache Spark
@@ -20,6 +21,8 @@ libraryDependencies ++= {
     "org.apache.spark" %% "spark-streaming-flume" % sparkVersion,
     "org.apache.spark" %% "spark-streaming-flume-sink" % sparkVersion,
     "com.databricks" %% "spark-xml" % "0.4.1",
+    "org.apache.hadoop" % "hadoop-common" % hadoopVersion,
+    "org.apache.hadoop" % "hadoop-streaming" % hadoopVersion,
     "org.rogach" %% "scallop" % scallopVersion,
     // Config
     "com.typesafe" % "config" % "1.3.1"
