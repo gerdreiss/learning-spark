@@ -20,6 +20,7 @@ libraryDependencies ++= {
     "org.apache.spark" %% "spark-streaming-kafka-0-8" % sparkVersion,
     "org.apache.spark" %% "spark-streaming-flume" % sparkVersion,
     "org.apache.spark" %% "spark-streaming-flume-sink" % sparkVersion,
+    "com.datastax.spark" %% "spark-cassandra-connector" % "2.0.1",
     "com.databricks" %% "spark-xml" % "0.4.1",
     "org.apache.hadoop" % "hadoop-common" % hadoopVersion,
     "org.apache.hadoop" % "hadoop-streaming" % hadoopVersion,
