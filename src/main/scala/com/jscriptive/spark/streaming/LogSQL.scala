@@ -89,7 +89,7 @@ object LogSQL {
     })
 
     // Kick it off
-    // ssc.checkpoint("C:/checkpoint/")
+    // ssc.checkpoint("checkpoint")
     ssc.start()
     ssc.awaitTermination()
   }

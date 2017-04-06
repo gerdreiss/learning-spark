@@ -1,5 +1,6 @@
 package com.jscriptive.spark.streaming
 
+import com.jscriptive.spark.streaming.Utilities.setupLogging
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.Text
 import org.apache.hadoop.mapred.{FileInputFormat, JobConf}
@@ -8,7 +9,7 @@ import org.apache.spark.sql.SparkSession
 
 import scala.xml.{Elem, XML}
 
-case class Book(id: String, title: String, author: String, genre: String, price: Double, publishDate: String, description: String)
+case class Book(id: String, title: String, author: String, genre: String, price: Double, publishDate: java.sql.Date, description: String)
 
 object HadoopStreamingXML extends App {
 
@@ -23,6 +24,8 @@ object HadoopStreamingXML extends App {
     .appName("HadoopStreamingXML")
     .master("local[*]")
     .getOrCreate()
+
+  setupLogging()
 
   // Load documents (one per line).
   val documents: RDD[(Text, Text)] = sparkSession.sparkContext
@@ -44,7 +47,7 @@ object HadoopStreamingXML extends App {
   //  </description>
   //</book>
 
-  val texts = documents
+  val books = documents
     .map(_._1.toString.trim())
     .map { s =>
       val xml: Elem = XML.loadString(s)
@@ -53,12 +56,16 @@ object HadoopStreamingXML extends App {
       val author = (xml \ "author").text
       val genre = (xml \ "genre").text
       val price = (xml \ "price").text.toDouble
-      val publishDate = (xml \ "publish_date").text
+      val publishDate = java.sql.Date.valueOf((xml \ "publish_date").text)
       val description = (xml \ "description").text
       Book(id, title, author, genre, price, publishDate, description)
     }
 
   import sparkSession.implicits._
 
-  texts.toDS().show()
+  books.toDS().createOrReplaceTempView("books")
+
+  sparkSession
+    .sql("select author, count(*) as works from books group by author order by works desc")
+    .show()
 }
