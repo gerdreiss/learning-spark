@@ -2,7 +2,7 @@ name := "learning-spark"
 
 version := "1.0"
 
-organization := "com.jscriptive"
+organization := "com.github"
 
 scalaVersion := "2.11.8"
 
